@@ -10,7 +10,7 @@ export default function Page3() {
     >
       <SafeAreaView style={styles.pageContainer}>
         <Text style={styles.pageTitle}>Page 3</Text>
-        <Text style={styles.pageText}>Tu peux mettre ce que tu veux ici 👀</Text>
+        <Text style={styles.pageText}>Not done yet...</Text>
       </SafeAreaView>
     </ImageBackground>
   );

@@ -27,7 +27,7 @@ export default function BottomTabs() {
       })}
     >
       <Tab.Screen name="Accueil" component={HomeScreen} />
-      <Tab.Screen name="Page 2" component={Page2} />
+      <Tab.Screen name="Camera" component={Page2} />
       <Tab.Screen name="Page 3" component={Page3} />
     </Tab.Navigator>
   );
