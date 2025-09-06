@@ -1,14 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 
 export default function App() {
   const [dateTime, setDateTime] = useState(new Date());
 
+  // Tableau des 3 images à afficher (mets les bons noms de fichiers)
+  const images = [
+    require('./assets/images/lisa.jpg'),
+    require('./assets/images/BloodMask.jpeg'),
+    require('./assets/images/CestTriste.jpg'),
+  ];
+  const [imgIndex, setImgIndex] = useState(0);
+
+  const nextImage = () => {
+    setImgIndex((i) => (i + 1) % images.length); // revient à la 1ère après la 3e
+  };
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDateTime(new Date());
-    }, 1000);
+    const interval = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -23,14 +33,21 @@ export default function App() {
           {dateTime.toLocaleDateString()} {dateTime.toLocaleTimeString()}
         </Text>
 
-        {/* Bloc centré avec texte d’accueil + hey + image */}
+        {/* Bloc centré */}
         <View style={styles.middleBlock}>
-          <Text style={styles.welcome}>Bienvenue sur 0SaKi !!</Text>
+          <Text style={styles.welcome}>Bienvenue sur 0SaKi !!!!</Text>
           <Text style={styles.overlayText}>Salut!</Text>
-          <Image
-            source={require('./assets/images/lisa.jpg')}
-            style={styles.centerImage}
-          />
+
+          {/* Image au milieu */}
+          <Image source={images[imgIndex]} style={styles.centerImage} />
+
+          {/* Bouton sous l'image */}
+          <Pressable style={styles.btn} onPress={nextImage}>
+            <Text style={styles.btnText}>Changer l’image</Text>
+          </Pressable>
+
+          {/* (Optionnel) Indicateur */}
+          <Text style={styles.counter}>Image {imgIndex + 1} / {images.length}</Text>
         </View>
 
         <StatusBar style="auto" />
@@ -40,10 +57,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
+  background: { flex: 1, resizeMode: 'cover' },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -62,10 +76,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcome: {
-    fontSize: 28, // plus grand
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 15, // espace avant "hey"
+    marginBottom: 15,
     textShadowColor: 'rgba(0,0,0,0.8)',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 4,
@@ -75,11 +89,28 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 10, // espace avant l’image
+    marginBottom: 10,
   },
   centerImage: {
-    width: 200,
-    height: 200,
+    width: 220,
+    height: 220,
     resizeMode: 'contain',
+    marginBottom: 12,
+  },
+  btn: {
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  btnText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  counter: {
+    marginTop: 8,
+    color: '#fff',
+    opacity: 0.9,
   },
 });
